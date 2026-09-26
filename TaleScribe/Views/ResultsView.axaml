@@ -69,13 +69,21 @@
                         Command="{Binding ResetCommand}"
                         HorizontalAlignment="Left" />
 
-                <TextBlock Classes="titlePage"
-                           Text="{Binding Recording.Title}"
-                           TextWrapping="Wrap"
-                           Margin="0,20,0,0" />
-                <TextBlock Classes="subtitle"
-                           Text="{Binding RecordedOn}"
-                           Margin="0,6,0,0" />
+                <!-- Title block, with the page's action on the right -->
+                <Grid ColumnDefinitions="*,Auto" Margin="0,20,0,0">
+                    <StackPanel Grid.Column="0" Spacing="6">
+                        <TextBlock Classes="titlePage"
+                                   Text="{Binding Recording.Title}"
+                                   TextWrapping="Wrap" />
+                        <TextBlock Classes="subtitle" Text="{Binding RecordedOn}" />
+                    </StackPanel>
+                    <Button Grid.Column="1"
+                            Content="Save as text…"
+                            Click="SaveTranscriptButton_Click"
+                            IsEnabled="{Binding Recording, Converter={x:Static ObjectConverters.IsNotNull}}"
+                            Margin="20,0,0,0"
+                            VerticalAlignment="Center" />
+                </Grid>
 
                 <!-- Transcript turns -->
                 <ItemsControl ItemsSource="{Binding Recording.Combined}" Margin="0,24,0,0">

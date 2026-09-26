@@ -9,7 +9,8 @@ Transcription runs locally with [transcribe.cpp](https://github.com/handy-comput
 
 - **Recordings**: record from the microphone or import an `.mp3`, `.m4a` or `.wav` file. TaleScribe
   transcribes it, splits the text into turns per speaker and saves it.
-- **Transcript view** with a built-in player: play, pause, seek and change the volume.
+- **Transcript view** with a built-in player: play, pause, seek and change the volume. Save any
+  transcript as a text file.
 - **Quick memo**: hold a button, speak, let go, and the text appears. Each press is added to the text.
   Nothing is recorded to disk or saved.
 - **Model manager**: download Whisper transcription models (tiny to large-v3-turbo, in several
@@ -40,7 +41,7 @@ Linux and Intel Macs are not supported.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/TaleScribe.git
+git clone https://github.com/jan-urb/TaleScribe.git
 cd TaleScribe
 ```
 
@@ -111,10 +112,12 @@ The build copies the native libraries for your OS next to the app automatically.
 4. Choose your **Input device**.
 5. Choose the **Default language**. **Auto** (the default) detects it from the audio, which takes a
    few extra seconds per file. Picking the language is faster and more reliable.
-6. The first time you record, allow microphone access. On macOS the permission is asked for the app
-   you started TaleScribe from (Terminal, Rider, …). You can change it later in
-   **System Settings → Privacy & Security → Microphone**; on macOS, **Open system settings** in
-   TaleScribe's Settings takes you straight there.
+6. Allow microphone access:
+   - **macOS** asks the first time you record, for the app you started TaleScribe from (Terminal,
+     Rider, …). You can change it later in **System Settings → Privacy & Security → Microphone**;
+     **Open system settings** in TaleScribe's Settings takes you straight there.
+   - **Windows** doesn't ask. Recording works as long as **Settings → Privacy & security →
+     Microphone → Let desktop apps access your microphone** is on (it is by default).
 
 Models are saved in the models folder shown at the top of Settings. Click **Change…** to use another
 folder, for example on a larger drive.
@@ -130,6 +133,8 @@ folder, for example on a larger drive.
 - While transcribing you can **Cancel**. The audio file stays in the recordings folder, but it isn't
   added to the list.
 - Click a recording in the list to open its transcript and play the audio.
+- **Save as text…** on the transcript page saves it as a `.txt` file named after the recording: the
+  title and date, then each turn with its speaker and start time.
 
 **Quick memo**
 - Click **Start**, then press and hold **Hold to talk** while you speak. Release it to transcribe.
@@ -148,26 +153,6 @@ It contains:
 - `recordings/`: the recorded `.wav` files
 - `models/`: downloaded models (unless you chose another folder in Settings)
 - `settings.json`: your settings
-
-Imported files are not copied; TaleScribe plays them from where they are. If you move or delete an
-imported file, its transcript stays but the audio can't be played.
-
-To reset TaleScribe completely, quit it and delete this folder.
-
-## Publishing a build
-
-```bash
-# macOS (Apple Silicon)
-dotnet publish TaleScribe -c Release -r osx-arm64
-
-# Windows x64
-dotnet publish TaleScribe -c Release -r win-x64
-```
-
-The runtime identifier (`-r`) decides which native folder is copied into the output, so you can
-publish the Windows build from a Mac and the other way round, as long as both folders are in
-`native/`.
-
 
 ## Built with
 

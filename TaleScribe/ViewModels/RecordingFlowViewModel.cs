@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -62,6 +64,8 @@ public partial class RecordingFlowViewModel : ViewModelBase, IDisposable
     [ObservableProperty] private double _positionSeconds;
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(RecordedOn))]
+    [NotifyPropertyChangedFor(nameof(SaveTranscriptFileName))]
+    [NotifyCanExecuteChangedFor(nameof(SaveTranscriptCommand))]
     private SpeechRecognitionResult? _recording;
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(RecordingsCountText))]
@@ -391,6 +395,65 @@ public partial class RecordingFlowViewModel : ViewModelBase, IDisposable
         IsLoaded = true;
 
         return true;
+    }
+    
+    /// <summary>The name the save dialog suggests: the recording's title as a .txt file.</summary>
+    public string SaveTranscriptFileName
+    {
+        get
+        {
+            var title = Recording?.Title;
+            if (string.IsNullOrWhiteSpace(title)) return "transcript.txt";
+
+            return $"{title}.txt";
+        }
+    }
+
+    private bool CanSaveTranscript() => Recording is not null;
+
+    /// <summary>
+    ///     Writes the transcript on the results screen to <paramref name="file" /> as plain text: title,
+    ///     date, then each turn with its speaker and start time. The view picks the file.
+    /// </summary>
+    [RelayCommand(CanExecute = nameof(CanSaveTranscript))]
+    private async Task SaveTranscriptAsync(IStorageFile file)
+    {
+        if (Recording is null) return;
+
+        try
+        {
+            await using var stream = await file.OpenWriteAsync();
+
+            // Overwriting a longer file would otherwise leave its old ending behind.
+            if (stream.CanSeek) stream.SetLength(0);
+
+            // UTF-8, so letters such as č, š and ž are kept.
+            await using var writer = new StreamWriter(stream, new UTF8Encoding(false));
+            await writer.WriteAsync(BuildTranscriptText(Recording));
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"The transcript could not be saved. {ex.Message}";
+        }
+    }
+
+    private string BuildTranscriptText(SpeechRecognitionResult recording)
+    {
+        var text = new StringBuilder();
+        text.AppendLine(recording.Title);
+        text.AppendLine(RecordedOn);
+
+        foreach (var turn in recording.Combined)
+        {
+            var start = TimeSpan.FromMilliseconds(Math.Max(0, turn.T0));
+            var time = start.TotalHours >= 1 ? start.ToString(@"h\:mm\:ss") : start.ToString(@"m\:ss");
+
+            text.AppendLine();
+            text.AppendLine($"Speaker {turn.SpeakerId}  {time}");
+            text.AppendLine(turn.Text);
+        }
+
+        return text.ToString();
     }
 
     private void OnRecorderError(Exception ex)

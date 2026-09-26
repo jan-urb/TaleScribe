@@ -1,0 +1,202 @@
+[
+  {
+    "name": "whisper-tiny-F32.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-tiny-gguf/resolve/main/whisper-tiny-F32.gguf",
+    "size": "153 MB"
+  },
+  {
+    "name": "whisper-tiny-F16.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-tiny-gguf/resolve/main/whisper-tiny-F16.gguf",
+    "size": "80 MB"
+  },
+  {
+    "name": "whisper-tiny-Q8_0.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-tiny-gguf/resolve/main/whisper-tiny-Q8_0.gguf",
+    "size": "46 MB"
+  },
+  {
+    "name": "whisper-tiny-Q6_K.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-tiny-gguf/resolve/main/whisper-tiny-Q6_K.gguf",
+    "size": "45 MB"
+  },
+  {
+    "name": "whisper-tiny-Q5_K_M.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-tiny-gguf/resolve/main/whisper-tiny-Q5_K_M.gguf",
+    "size": "44 MB"
+  },
+  {
+    "name": "whisper-tiny-Q4_K_M.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-tiny-gguf/resolve/main/whisper-tiny-Q4_K_M.gguf",
+    "size": "44 MB"
+  },
+  {
+    "name": "whisper-base-F32.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-base-gguf/resolve/main/whisper-base-F32.gguf",
+    "size": "279 MB"
+  },
+  {
+    "name": "whisper-base-F16.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-base-gguf/resolve/main/whisper-base-F16.gguf",
+    "size": "144 MB"
+  },
+  {
+    "name": "whisper-base-Q8_0.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-base-gguf/resolve/main/whisper-base-Q8_0.gguf",
+    "size": "81 MB"
+  },
+  {
+    "name": "whisper-base-Q6_K.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-base-gguf/resolve/main/whisper-base-Q6_K.gguf",
+    "size": "65 MB"
+  },
+  {
+    "name": "whisper-base-Q5_K_M.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-base-gguf/resolve/main/whisper-base-Q5_K_M.gguf",
+    "size": "61 MB"
+  },
+  {
+    "name": "whisper-base-Q4_K_M.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-base-gguf/resolve/main/whisper-base-Q4_K_M.gguf",
+    "size": "56 MB"
+  },
+  {
+    "name": "whisper-small-F32.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-small-gguf/resolve/main/whisper-small-F32.gguf",
+    "size": "969 MB"
+  },
+  {
+    "name": "whisper-small-F16.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-small-gguf/resolve/main/whisper-small-F16.gguf",
+    "size": "493 MB"
+  },
+  {
+    "name": "whisper-small-Q8_0.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-small-gguf/resolve/main/whisper-small-Q8_0.gguf",
+    "size": "270 MB"
+  },
+  {
+    "name": "whisper-small-Q6_K.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-small-gguf/resolve/main/whisper-small-Q6_K.gguf",
+    "size": "212 MB"
+  },
+  {
+    "name": "whisper-small-Q5_K_M.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-small-gguf/resolve/main/whisper-small-Q5_K_M.gguf",
+    "size": "194 MB"
+  },
+  {
+    "name": "whisper-small-Q4_K_M.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-small-gguf/resolve/main/whisper-small-Q4_K_M.gguf",
+    "size": "172 MB"
+  },
+  {
+    "name": "whisper-medium-F32.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-medium-gguf/resolve/main/whisper-medium-F32.gguf",
+    "size": "3.06 GB"
+  },
+  {
+    "name": "whisper-medium-F16.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-medium-gguf/resolve/main/whisper-medium-F16.gguf",
+    "size": "1.54 GB"
+  },
+  {
+    "name": "whisper-medium-Q8_0.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-medium-gguf/resolve/main/whisper-medium-Q8_0.gguf",
+    "size": "832 MB"
+  },
+  {
+    "name": "whisper-medium-Q6_K.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-medium-gguf/resolve/main/whisper-medium-Q6_K.gguf",
+    "size": "648 MB"
+  },
+  {
+    "name": "whisper-medium-Q5_K_M.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-medium-gguf/resolve/main/whisper-medium-Q5_K_M.gguf",
+    "size": "583 MB"
+  },
+  {
+    "name": "whisper-medium-Q4_K_M.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-medium-gguf/resolve/main/whisper-medium-Q4_K_M.gguf",
+    "size": "504 MB"
+  },
+  {
+    "name": "whisper-large-F32.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-gguf/resolve/main/whisper-large-F32.gguf",
+    "size": "6.18 GB"
+  },
+  {
+    "name": "whisper-large-F16.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-gguf/resolve/main/whisper-large-F16.gguf",
+    "size": "3.11 GB"
+  },
+  {
+    "name": "whisper-large-Q8_0.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-gguf/resolve/main/whisper-large-Q8_0.gguf",
+    "size": "1.67 GB"
+  },
+  {
+    "name": "whisper-large-Q6_K.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-gguf/resolve/main/whisper-large-Q6_K.gguf",
+    "size": "1.30 GB"
+  },
+  {
+    "name": "whisper-large-Q5_K_M.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-gguf/resolve/main/whisper-large-Q5_K_M.gguf",
+    "size": "1.16 GB"
+  },
+  {
+    "name": "whisper-large-Q4_K_M.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-gguf/resolve/main/whisper-large-Q4_K_M.gguf",
+    "size": "997 MB"
+  },
+  {
+    "name": "whisper-large-v3-F16.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-v3-gguf/resolve/main/whisper-large-v3-F16.gguf",
+    "size": "2.88 GB"
+  },
+  {
+    "name": "whisper-large-v3-Q8_0.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-v3-gguf/resolve/main/whisper-large-v3-Q8_0.gguf",
+    "size": "1.55 GB"
+  },
+  {
+    "name": "whisper-large-v3-Q6_K.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-v3-gguf/resolve/main/whisper-large-v3-Q6_K.gguf",
+    "size": "1.21 GB"
+  },
+  {
+    "name": "whisper-large-v3-Q5_K_M.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-v3-gguf/resolve/main/whisper-large-v3-Q5_K_M.gguf",
+    "size": "1.08 GB"
+  },
+  {
+    "name": "whisper-large-v3-Q4_K_M.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-v3-gguf/resolve/main/whisper-large-v3-Q4_K_M.gguf",
+    "size": "951 MB"
+  },
+  {
+    "name": "whisper-large-v3-turbo-F16.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-v3-turbo-gguf/resolve/main/whisper-large-v3-turbo-F16.gguf",
+    "size": "1.51 GB"
+  },
+  {
+    "name": "whisper-large-v3-turbo-Q8_0.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-v3-turbo-gguf/resolve/main/whisper-large-v3-turbo-Q8_0.gguf",
+    "size": "845 MB"
+  },
+  {
+    "name": "whisper-large-v3-turbo-Q6_K.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-v3-turbo-gguf/resolve/main/whisper-large-v3-turbo-Q6_K.gguf",
+    "size": "660 MB"
+  },
+  {
+    "name": "whisper-large-v3-turbo-Q5_K_M.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-v3-turbo-gguf/resolve/main/whisper-large-v3-turbo-Q5_K_M.gguf",
+    "size": "591 MB"
+  },
+  {
+    "name": "whisper-large-v3-turbo-Q4_K_M.gguf",
+    "link": "https://huggingface.co/handy-computer/whisper-large-v3-turbo-gguf/resolve/main/whisper-large-v3-turbo-Q4_K_M.gguf",
+    "size": "511 MB"
+  }
+]

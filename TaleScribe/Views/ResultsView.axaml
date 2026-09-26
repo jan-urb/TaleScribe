@@ -1,0 +1,106 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:TaleScribe.ViewModels"
+             xmlns:models="using:TaleScribe.Models"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="620"
+             x:DataType="vm:RecordingFlowViewModel"
+             x:Class="TaleScribe.Views.ResultsView">
+
+    <DockPanel LastChildFill="True">
+
+
+        <Border DockPanel.Dock="Bottom" Classes="footerBar" IsVisible="{Binding IsLoaded}">
+            <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" VerticalAlignment="Center">
+                <Button Grid.Column="0"
+                        Classes="play"
+                        Command="{Binding TogglePlaybackCommand}"
+                        ToolTip.Tip="{Binding TrackName}">
+                    <Panel>
+                        <Path Data="M0,0 L7.4,4.25 L0,8.5 Z"
+                              Fill="White"
+                              Margin="1.5,0,0,0"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              IsVisible="{Binding !IsPlaying}" />
+                        <Path Data="M0,0 H2.5 V8.5 H0 Z M5,0 H7.5 V8.5 H5 Z"
+                              Fill="White"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              IsVisible="{Binding IsPlaying}" />
+                    </Panel>
+                </Button>
+
+                <Slider Grid.Column="1"
+                        Minimum="0"
+                        Maximum="{Binding DurationSeconds}"
+                        Value="{Binding PositionSeconds, Mode=TwoWay}"
+                        Margin="14,0,0,0"
+                        VerticalAlignment="Center" />
+
+                <TextBlock Grid.Column="2"
+                           Classes="monoData"
+                           Text="{Binding TimeText}"
+                           Margin="14,0,0,0"
+                           VerticalAlignment="Center" />
+
+                <TextBlock Grid.Column="3"
+                           Classes="caption"
+                           Text="Volume"
+                           Margin="24,0,0,0"
+                           VerticalAlignment="Center" />
+                <Slider Grid.Column="4"
+                        Width="80"
+                        Minimum="0"
+                        Maximum="1"
+                        Value="{Binding Volume, Mode=TwoWay}"
+                        Margin="8,0,0,0"
+                        VerticalAlignment="Center" />
+            </Grid>
+        </Border>
+
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="40,32,40,40" MaxWidth="640" HorizontalAlignment="Left">
+
+                <!-- Back to the recordings list -->
+                <Button Classes="text back"
+                        Content="‹ Recordings"
+                        Command="{Binding ResetCommand}"
+                        HorizontalAlignment="Left" />
+
+                <TextBlock Classes="titlePage"
+                           Text="{Binding Recording.Title}"
+                           TextWrapping="Wrap"
+                           Margin="0,20,0,0" />
+                <TextBlock Classes="subtitle"
+                           Text="{Binding RecordedOn}"
+                           Margin="0,6,0,0" />
+
+                <!-- Transcript turns -->
+                <ItemsControl ItemsSource="{Binding Recording.Combined}" Margin="0,24,0,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="24" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:CombinedResult">
+                            <StackPanel Spacing="7">
+                                <StackPanel Orientation="Horizontal" Spacing="7">
+                                    <Ellipse Classes="speakerDot" />
+                                    <TextBlock Classes="speakerLabel"
+                                               Text="{Binding SpeakerId, StringFormat='Speaker {0}'}"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                                <TextBlock Classes="reading" Text="{Binding Text}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </StackPanel>
+        </ScrollViewer>
+
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,17 @@
+[
+  {
+    "name": "diar_streaming_sortformer_4spk-v2.1-F32.gguf",
+    "link": "https://huggingface.co/handy-computer/diar_streaming_sortformer_4spk-v2.1-gguf/resolve/main/diar_streaming_sortformer_4spk-v2.1-F32.gguf",
+    "size": "471 MB"
+  },
+  {
+    "name": "diar_streaming_sortformer_4spk-v2.1-F16.gguf",
+    "link": "https://huggingface.co/handy-computer/diar_streaming_sortformer_4spk-v2.1-gguf/resolve/main/diar_streaming_sortformer_4spk-v2.1-F16.gguf",
+    "size": "237 MB"
+  },
+  {
+    "name": "diar_streaming_sortformer_4spk-v2.1-Q8_0.gguf",
+    "link": "https://huggingface.co/handy-computer/diar_streaming_sortformer_4spk-v2.1-gguf/resolve/main/diar_streaming_sortformer_4spk-v2.1-Q8_0.gguf",
+    "size": "139 MB"
+  }
+]

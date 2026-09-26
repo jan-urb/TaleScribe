@@ -1,0 +1,77 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:TaleScribe.ViewModels"
+             xmlns:models="using:TaleScribe.Models"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
+             x:DataType="vm:RecordingFlowViewModel"
+             x:Class="TaleScribe.Views.RecordingsListView">
+
+    <DockPanel LastChildFill="True">
+
+        <!-- Header: title block on the left, the page's actions on the right -->
+        <StackPanel DockPanel.Dock="Top">
+            <Grid ColumnDefinitions="*,Auto" Margin="40,32,40,24">
+                <StackPanel Grid.Column="0" Spacing="6" VerticalAlignment="Center">
+                    <TextBlock Classes="titleLg" Text="Recordings" />
+                    <TextBlock Classes="subtitle" Text="{Binding RecordingsCountText}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            Spacing="12"
+                            VerticalAlignment="Center">
+                    <Button Classes="m" Content="Import audio…" Click="OpenFileButton_Clicked" />
+                    <Button Classes="m primary record" Content="Record" Command="{Binding StartCommand}" />
+                </StackPanel>
+            </Grid>
+
+            <Border Classes="hairline" />
+        </StackPanel>
+
+        <Panel>
+            <!-- Empty state -->
+            <StackPanel IsVisible="{Binding !Recordings.Count}"
+                        Spacing="6"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <TextBlock Classes="titleLg" Text="No recordings yet" HorizontalAlignment="Center" />
+                <TextBlock Classes="subtitle"
+                           Text="Record or import audio to get a transcript."
+                           HorizontalAlignment="Center" />
+            </StackPanel>
+
+            <!-- Recordings list: one row per recording, separated by hairlines -->
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding Recordings}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:RecordingSummary">
+                            <Button Classes="rowButton"
+                                    Command="{Binding $parent[ItemsControl].((vm:RecordingFlowViewModel)DataContext).OpenRecordingCommand}"
+                                    CommandParameter="{Binding Id}">
+                                <Border Classes="listRow">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <StackPanel Grid.Column="0" Spacing="3">
+                                            <TextBlock Classes="listTitle"
+                                                       Text="{Binding Title}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Classes="description" Text="{Binding RecordedOn}" />
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="1"
+                                                   Classes="body"
+                                                   Text="›"
+                                                   Foreground="{StaticResource Ink30Brush}"
+                                                   Margin="20,0,0,0"
+                                                   VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Panel>
+
+    </DockPanel>
+</UserControl>

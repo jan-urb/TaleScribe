@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:TaleScribe.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="620"
+             x:DataType="vm:MemoViewModel"
+             x:Class="TaleScribe.Views.MemoIdleView">
+
+    <StackPanel MaxWidth="400" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+        <Border Classes="logoMark large" HorizontalAlignment="Center">
+            <Ellipse />
+        </Border>
+
+        <TextBlock Classes="titleLg"
+                   Text="Quick memo"
+                   Margin="0,24,0,0"
+                   HorizontalAlignment="Center" />
+
+        <TextBlock Classes="lead"
+                   Text="Start, then hold the button and speak."
+                   Margin="0,6,0,0"
+                   HorizontalAlignment="Center" />
+
+        <TextBlock Classes="caption"
+                   Text="Text appears here. Nothing is recorded or saved."
+                   Margin="0,6,0,0"
+                   TextWrapping="Wrap"
+                   TextAlignment="Center"
+                   HorizontalAlignment="Center" />
+
+        <Button Classes="l primary"
+                Content="Start"
+                Command="{Binding BeginRecordingCommand}"
+                Margin="0,24,0,0"
+                HorizontalAlignment="Center" />
+
+    </StackPanel>
+</UserControl>

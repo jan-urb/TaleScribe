@@ -1,0 +1,87 @@
+<!-- Design-system tokens: the only place in the app that names a color, font or shadow.
+     Every gray is black at an alpha value (#AARRGGBB). The OKLCH values in the design spec are the
+     source of truth; Avalonia has no OKLCH, so the close sRGB matches from the spec are used. -->
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Neutrals -->
+    <Color x:Key="SurfaceColor">#FFFFFF</Color>
+    <Color x:Key="Surface2Color">#F5F5F3</Color>
+    <Color x:Key="InkColor">#101010</Color>
+    <Color x:Key="InkHoverColor">#2A2A2A</Color>
+
+    <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}" />
+    <SolidColorBrush x:Key="Surface2Brush" Color="{StaticResource Surface2Color}" />
+    <SolidColorBrush x:Key="InkBrush" Color="{StaticResource InkColor}" />
+    <SolidColorBrush x:Key="InkHoverBrush" Color="{StaticResource InkHoverColor}" />
+
+    <!-- Ink alpha scale -->
+    <SolidColorBrush x:Key="Ink88Brush" Color="#E0000000" />
+    <SolidColorBrush x:Key="Ink70Brush" Color="#B3000000" />
+    <SolidColorBrush x:Key="Ink60Brush" Color="#99000000" />
+    <SolidColorBrush x:Key="Ink50Brush" Color="#80000000" />
+    <SolidColorBrush x:Key="Ink45Brush" Color="#73000000" />
+    <SolidColorBrush x:Key="Ink40Brush" Color="#66000000" />
+    <SolidColorBrush x:Key="Ink35Brush" Color="#59000000" />
+    <SolidColorBrush x:Key="Ink30Brush" Color="#4D000000" />
+    <SolidColorBrush x:Key="Ink28Brush" Color="#47000000" />
+
+    <!-- Lines and fills -->
+    <SolidColorBrush x:Key="HairlineBrush" Color="#12000000" />
+    <SolidColorBrush x:Key="HairlineChromeBrush" Color="#0F000000" />
+    <SolidColorBrush x:Key="BorderControlBrush" Color="#21000000" />
+    <SolidColorBrush x:Key="BorderFocusBrush" Color="#8C000000" />
+    <SolidColorBrush x:Key="FillSelectedBrush" Color="#0E000000" />
+    <SolidColorBrush x:Key="FillHoverBrush" Color="#09000000" />
+    <SolidColorBrush x:Key="FillRowActiveBrush" Color="#05000000" />
+    <SolidColorBrush x:Key="TrackBrush" Color="#1A000000" />
+    <SolidColorBrush x:Key="ToggleOffBrush" Color="#24000000" />
+    <!-- Radio ring, drop-zone dash and floating-surface border -->
+    <SolidColorBrush x:Key="RadioRingBrush" Color="#40000000" />
+    <SolidColorBrush x:Key="DropZoneBorderBrush" Color="#29000000" />
+    <SolidColorBrush x:Key="ElevatedBorderBrush" Color="#1A000000" />
+
+    <!-- Semantic red: oklch(0.55 0.19 25), its 35% outline, and oklch(0.58 0.20 25) for live dots -->
+    <SolidColorBrush x:Key="RedBrush" Color="#C43C33" />
+    <SolidColorBrush x:Key="RedBorderBrush" Color="#59C43C33" />
+    <SolidColorBrush x:Key="RedLiveBrush" Color="#D2443A" />
+
+    <!-- Speaker dot: oklch(0.60 0.12 250). One color for every speaker; dots only, never text or backgrounds. -->
+    <SolidColorBrush x:Key="SpeakerBrush" Color="#4F84C4" />
+
+    <!-- Fonts. .AppleSystemUIFont is the macOS system font (SF); Segoe UI Variable is Windows 11's. -->
+    <FontFamily x:Key="FontSans">Segoe UI Variable Text, Segoe UI, .AppleSystemUIFont, Helvetica Neue, Helvetica, Arial</FontFamily>
+    <FontFamily x:Key="FontMono">SF Mono, Menlo, Consolas, Liberation Mono, monospace</FontFamily>
+
+    <!-- Only floating surfaces (dialogs, popovers, menus) are elevated -->
+    <BoxShadows x:Key="ElevationShadow">0 1 2 0 #0D000000, 0 12 32 -12 #2E000000</BoxShadows>
+    <BoxShadows x:Key="FocusRing">0 0 0 3 #1F000000</BoxShadows>
+
+    <!-- Fluent brushes the app still draws through (ComboBoxItem, ProgressBar), mapped onto the
+         tokens so no accent blue or Fluent gray shows up. -->
+
+    <SolidColorBrush x:Key="ComboBoxItemBackground" Color="Transparent" />
+    <StaticResource x:Key="ComboBoxItemBackgroundPointerOver" ResourceKey="FillHoverBrush" />
+    <StaticResource x:Key="ComboBoxItemBackgroundPressed" ResourceKey="FillSelectedBrush" />
+    <StaticResource x:Key="ComboBoxItemBackgroundSelected" ResourceKey="FillSelectedBrush" />
+    <StaticResource x:Key="ComboBoxItemBackgroundSelectedPointerOver" ResourceKey="FillSelectedBrush" />
+    <StaticResource x:Key="ComboBoxItemBackgroundSelectedPressed" ResourceKey="FillSelectedBrush" />
+    <SolidColorBrush x:Key="ComboBoxItemBackgroundSelectedDisabled" Color="Transparent" />
+    <SolidColorBrush x:Key="ComboBoxItemBorderBrushPointerOver" Color="Transparent" />
+    <SolidColorBrush x:Key="ComboBoxItemBorderBrushPressed" Color="Transparent" />
+    <SolidColorBrush x:Key="ComboBoxItemBorderBrushSelected" Color="Transparent" />
+    <SolidColorBrush x:Key="ComboBoxItemBorderBrushSelectedPointerOver" Color="Transparent" />
+    <SolidColorBrush x:Key="ComboBoxItemBorderBrushSelectedPressed" Color="Transparent" />
+    <SolidColorBrush x:Key="ComboBoxItemBorderBrushSelectedDisabled" Color="Transparent" />
+    <SolidColorBrush x:Key="ComboBoxItemBorderBrushDisabled" Color="Transparent" />
+    <StaticResource x:Key="ComboBoxItemForeground" ResourceKey="InkBrush" />
+    <StaticResource x:Key="ComboBoxItemForegroundPointerOver" ResourceKey="InkBrush" />
+    <StaticResource x:Key="ComboBoxItemForegroundPressed" ResourceKey="InkBrush" />
+    <StaticResource x:Key="ComboBoxItemForegroundSelected" ResourceKey="InkBrush" />
+    <StaticResource x:Key="ComboBoxItemForegroundSelectedPointerOver" ResourceKey="InkBrush" />
+    <StaticResource x:Key="ComboBoxItemForegroundSelectedPressed" ResourceKey="InkBrush" />
+    <StaticResource x:Key="ComboBoxItemForegroundDisabled" ResourceKey="Ink30Brush" />
+    <StaticResource x:Key="ComboBoxItemForegroundSelectedDisabled" ResourceKey="Ink30Brush" />
+
+    <x:Double x:Key="ProgressBarThemeMinHeight">3</x:Double>
+</ResourceDictionary>

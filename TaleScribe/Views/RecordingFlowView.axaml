@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:TaleScribe.ViewModels"
+             xmlns:views="clr-namespace:TaleScribe.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TaleScribe.Views.RecordingFlowView"
+             x:DataType="vm:RecordingFlowViewModel">
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Errors from any step of the flow, shown above whichever screen is active;
+             hidden while there is no error -->
+        <TextBlock Grid.Row="0"
+                   Text="{Binding ErrorMessage}"
+                   IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                   Classes="error"
+                   Margin="40,24,40,0" />
+
+        <views:RecordingsListView Grid.Row="1" IsVisible="{Binding IsIdle}" />
+        <views:ActiveRecordingView Grid.Row="1" IsVisible="{Binding IsRecording}" />
+        <views:AudioProcessingView Grid.Row="1" IsVisible="{Binding IsProcessing}" />
+        <views:ResultsView Grid.Row="1" IsVisible="{Binding IsFinished}" />
+    </Grid>
+</UserControl>

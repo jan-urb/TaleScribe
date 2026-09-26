@@ -1,0 +1,152 @@
+<!-- Shared component styles: window defaults, dots, rows, bars, and the Fluent controls the app
+     restyles rather than replaces (ComboBoxItem, ProgressBar). Their brushes come from Tokens.axaml. -->
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style Selector=":is(TopLevel)">
+        <Setter Property="FontFamily" Value="{StaticResource FontSans}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+    <Style Selector=":is(Window)">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+    </Style>
+
+    <!-- Dots. The pulse is the only looping animation, and only the live and working dots use it. -->
+    <Style Selector="Ellipse.liveDot, Ellipse.workingDot">
+        <Setter Property="Width" Value="7" />
+        <Setter Property="Height" Value="7" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Style.Animations>
+            <Animation Duration="0:0:1.6" IterationCount="INFINITE" Easing="SineEaseInOut">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+                <KeyFrame Cue="50%">
+                    <Setter Property="Opacity" Value="0.35" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+    <Style Selector="Ellipse.liveDot">
+        <Setter Property="Fill" Value="{StaticResource RedLiveBrush}" />
+    </Style>
+    <Style Selector="Ellipse.workingDot">
+        <Setter Property="Fill" Value="{StaticResource InkBrush}" />
+    </Style>
+    <!-- Paused recording: still and grey, since pulse and red mean live -->
+    <Style Selector="Ellipse.pausedDot">
+        <Setter Property="Width" Value="7" />
+        <Setter Property="Height" Value="7" />
+        <Setter Property="Fill" Value="{StaticResource Ink30Brush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Speaker dot beside a speaker label -->
+    <Style Selector="Ellipse.speakerDot">
+        <Setter Property="Width" Value="8" />
+        <Setter Property="Height" Value="8" />
+        <Setter Property="Fill" Value="{StaticResource SpeakerBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Rows, not boxes: a hairline on top; the last row also closes with one at the bottom -->
+    <Style Selector="Border.row">
+        <Setter Property="BorderBrush" Value="{StaticResource HairlineBrush}" />
+        <Setter Property="BorderThickness" Value="0,1,0,0" />
+        <Setter Property="Padding" Value="0,15" />
+    </Style>
+    <Style Selector="Border.row.last">
+        <Setter Property="BorderThickness" Value="0,1,0,1" />
+    </Style>
+    <Style Selector="Border.row.active">
+        <Setter Property="Background" Value="{StaticResource FillRowActiveBrush}" />
+    </Style>
+    <!-- Rows you can act on: a transparent background so the whole row takes the pointer -->
+    <Style Selector="Border.row.hoverable">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.15" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Border.row.hoverable.active">
+        <Setter Property="Background" Value="{StaticResource FillRowActiveBrush}" />
+    </Style>
+    <Style Selector="Border.row.hoverable:pointerover">
+        <Setter Property="Background" Value="{StaticResource FillHoverBrush}" />
+    </Style>
+    <Style Selector="Border.listRow">
+        <Setter Property="BorderBrush" Value="{StaticResource HairlineBrush}" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="Padding" Value="40,20" />
+    </Style>
+    <Style Selector="Border.hairline">
+        <Setter Property="Height" Value="1" />
+        <Setter Property="Background" Value="{StaticResource HairlineBrush}" />
+    </Style>
+
+    <!-- Footer bar: caption on the left, actions on the right -->
+    <Style Selector="Border.footerBar">
+        <Setter Property="Height" Value="52" />
+        <Setter Property="Padding" Value="20,0" />
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource HairlineBrush}" />
+        <Setter Property="BorderThickness" Value="0,1,0,0" />
+    </Style>
+
+    <!-- Logo mark: ink circle with a white centre dot a third of its diameter -->
+    <Style Selector="Border.logoMark">
+        <Setter Property="Width" Value="18" />
+        <Setter Property="Height" Value="18" />
+        <Setter Property="CornerRadius" Value="9" />
+        <Setter Property="Background" Value="{StaticResource InkBrush}" />
+    </Style>
+    <Style Selector="Border.logoMark > Ellipse">
+        <Setter Property="Width" Value="6" />
+        <Setter Property="Height" Value="6" />
+        <Setter Property="Fill" Value="White" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Border.logoMark.large">
+        <Setter Property="Width" Value="34" />
+        <Setter Property="Height" Value="34" />
+        <Setter Property="CornerRadius" Value="17" />
+    </Style>
+    <Style Selector="Border.logoMark.large > Ellipse">
+        <Setter Property="Width" Value="11" />
+        <Setter Property="Height" Value="11" />
+    </Style>
+
+    <!-- Mini waveform: rounded bars, 2 wide, 2 apart -->
+    <Style Selector="Rectangle.waveBar">
+        <Setter Property="Width" Value="2" />
+        <Setter Property="RadiusX" Value="1" />
+        <Setter Property="RadiusY" Value="1" />
+        <Setter Property="Fill" Value="{StaticResource Ink30Brush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Items in a select's popup; their colors come from the Fluent keys mapped in Tokens.axaml -->
+    <Style Selector="ComboBoxItem">
+        <Setter Property="CornerRadius" Value="7" />
+        <Setter Property="Padding" Value="10,6" />
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="FontSize" Value="12.5" />
+    </Style>
+
+    <!-- Progress bar: 3px, ink on track -->
+    <Style Selector="ProgressBar">
+        <Setter Property="Height" Value="3" />
+        <Setter Property="MinHeight" Value="3" />
+        <Setter Property="CornerRadius" Value="2" />
+        <Setter Property="Background" Value="{StaticResource TrackBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+
+</Styles>

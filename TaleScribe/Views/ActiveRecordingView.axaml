@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:TaleScribe.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:RecordingFlowViewModel"
+             x:Class="TaleScribe.Views.ActiveRecordingView">
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+        <!-- Status: a pulsing red dot while live, a still grey one while paused -->
+        <Panel HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Spacing="8" IsVisible="{Binding !IsPaused}">
+                <Ellipse Classes="liveDot" />
+                <TextBlock Classes="status" Text="Recording" VerticalAlignment="Center" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="8" IsVisible="{Binding IsPaused}">
+                <Ellipse Classes="pausedDot" />
+                <TextBlock Classes="status" Text="Paused" VerticalAlignment="Center" />
+            </StackPanel>
+        </Panel>
+
+        <!-- Elapsed time, driven by the code-behind -->
+        <TextBlock x:Name="ElapsedText"
+                   Classes="timerXl"
+                   Text="0:00"
+                   Margin="0,24,0,0"
+                   HorizontalAlignment="Center" />
+
+        <!-- Transport controls: Stop & transcribe is the one primary action -->
+        <StackPanel Orientation="Horizontal"
+                    Spacing="12"
+                    Margin="0,40,0,0"
+                    HorizontalAlignment="Center">
+            <Button Classes="l destructive" Content="Discard" Command="{Binding CancelCommand}" />
+            <Button Classes="l"  Content="{Binding PauseText}" Command="{Binding TogglePauseCommand}" />
+            <Button Classes="l primary" Content="Stop &amp; transcribe" Command="{Binding StopCommand}" />
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>

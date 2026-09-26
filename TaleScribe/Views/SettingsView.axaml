@@ -1,0 +1,188 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:TaleScribe.ViewModels"
+             xmlns:models="using:TaleScribe.Models"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="900"
+             x:DataType="vm:SettingsViewModel"
+             x:Class="TaleScribe.Views.SettingsView">
+
+    <UserControl.Styles>
+        <Style Selector="RadioButton.modelRadio">
+            <Setter Property="GroupName" Value="TranscriptionModel" />
+        </Style>
+    </UserControl.Styles>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="40,32,40,40" MaxWidth="760" HorizontalAlignment="Left">
+
+            <!-- Header -->
+            <TextBlock Classes="titlePane" Text="Settings" />
+            <TextBlock Classes="subtitle"
+                       Text="Bigger models are more accurate and slower. Everything runs on this machine."
+                       TextWrapping="Wrap"
+                       Margin="0,6,0,0" />
+
+            <TextBlock Classes="sectionLabel" Text="TRANSCRIPTION MODEL" Margin="0,24,0,12" />
+
+
+            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,12">
+                <SelectableTextBlock Grid.Column="0"
+                                     Classes="monoData"
+                                     Text="{Binding ModelsDirectory}"
+                                     TextWrapping="Wrap"
+                                     VerticalAlignment="Center" />
+                <Button Grid.Column="1"
+                        Classes="text"
+                        Content="Change…"
+                        Margin="20,0,0,0"
+                        Click="BrowseButton_Click"
+                        IsEnabled="{Binding !DownloadCommand.IsRunning}" />
+            </Grid>
+            <TextBlock Classes="error"
+                       Text="{Binding ErrorMessage}"
+                       IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                       Margin="0,0,0,12" />
+
+            <Border BorderBrush="{StaticResource HairlineBrush}" BorderThickness="0,0,0,1">
+                <ScrollViewer MaxHeight="440"
+                              HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding ModelList}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:TranscriptionModel">
+                                <Border Classes="row hoverable" Classes.active="{Binding IsUsing}">
+                                    <Grid ColumnDefinitions="Auto,*,90,120" Margin="12,0">
+                                        <RadioButton Grid.Column="0" Classes="modelRadio"
+                                                     IsChecked="{Binding IsUsing, Mode=OneWay}"
+                                                     IsEnabled="{Binding CanSelect}"
+                                                     Command="{Binding $parent[ItemsControl].((vm:SettingsViewModel)DataContext).SelectModelCommand}"
+                                                     CommandParameter="{Binding}" />
+                                        <TextBlock Grid.Column="1" Classes="rowTitle"
+                                                   Classes.selected="{Binding IsUsing}"
+                                                   Text="{Binding Name}"
+                                                   Margin="12,0,16,0"
+                                                   VerticalAlignment="Center"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Grid.Column="2" Classes="monoData"
+                                                   Text="{Binding Size}"
+                                                   HorizontalAlignment="Right"
+                                                   VerticalAlignment="Center" />
+
+                                        <Panel Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                            <TextBlock Classes="description" Text="Installed"
+                                                       IsVisible="{Binding IsInstalled}" />
+                                            <TextBlock Classes="control" Text="In use"
+                                                       IsVisible="{Binding IsUsing}" />
+                                            <Button Classes="text positive" Content="Download"
+                                                    IsVisible="{Binding CanDownload}"
+                                                    Command="{Binding $parent[ItemsControl].((vm:SettingsViewModel)DataContext).DownloadCommand}"
+                                                    CommandParameter="{Binding}" />
+                                            <StackPanel Orientation="Horizontal" Spacing="16"
+                                                        IsVisible="{Binding IsDownloading}">
+                                                <Ellipse Classes="workingDot" />
+                                                <Button Classes="text destructive" Content="Stop"
+                                                        Command="{Binding $parent[ItemsControl].((vm:SettingsViewModel)DataContext).DownloadCancelCommand}" />
+                                            </StackPanel>
+                                        </Panel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Border>
+
+            <!-- Preferences -->
+            <TextBlock Classes="sectionLabel" Text="PREFERENCES" Margin="0,26,0,12" />
+            <Border Classes="row">
+                <Grid ColumnDefinitions="*,Auto,Auto">
+                    <StackPanel Grid.Column="0" Spacing="3" VerticalAlignment="Center">
+                        <TextBlock Classes="rowTitle" Text="Speaker model" />
+                        <TextBlock Classes="description" Text="Tells the speakers in a recording apart" />
+                    </StackPanel>
+
+                    <Panel Grid.Column="1" Margin="20,0,16,0" VerticalAlignment="Center">
+                        <TextBlock Classes="control" Text="In use"
+                                   IsVisible="{Binding SelectedDiarModel.IsUsing, FallbackValue=False}" />
+                        <Button Classes="text positive" Content="Download"
+                                IsVisible="{Binding SelectedDiarModel.CanDownload, FallbackValue=False}"
+                                Command="{Binding DownloadCommand}"
+                                CommandParameter="{Binding SelectedDiarModel}" />
+                        <StackPanel Orientation="Horizontal" Spacing="16"
+                                    IsVisible="{Binding SelectedDiarModel.IsDownloading, FallbackValue=False}">
+                            <Ellipse Classes="workingDot" />
+                            <Button Classes="text destructive" Content="Stop"
+                                    Command="{Binding DownloadCancelCommand}" />
+                        </StackPanel>
+                    </Panel>
+
+                    <ComboBox Grid.Column="2" MaxWidth="320"
+                              ItemsSource="{Binding DiarModelList}"
+                              SelectedItem="{Binding SelectedDiarModel}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:TranscriptionModel">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" MaxWidth="220"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Classes="monoData" Text="{Binding Size}" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </Border>
+
+            <!-- Default language -->
+            <Border Classes="row">
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Grid.Column="0" Spacing="3" VerticalAlignment="Center">
+                        <TextBlock Classes="rowTitle" Text="Default language" />
+                    </StackPanel>
+                    <ComboBox Grid.Column="1" MinWidth="180" Margin="20,0,0,0"
+                              ItemsSource="{Binding LanguagesList}"
+                              SelectedItem="{Binding SelectedLanguage}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:Language">
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </Border>
+
+            <!-- Microphone access -->
+            <Border Classes="row" IsVisible="{Binding ShowSystemSettings}">
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Grid.Column="0" Spacing="3" VerticalAlignment="Center">
+                        <TextBlock Classes="rowTitle" Text="Microphone access" />
+                        <TextBlock Classes="description" Text="Grant microphone access to record" />
+                    </StackPanel>
+                    <Button Grid.Column="1" Content="Open system settings" Margin="20,0,0,0"
+                            Click="OpenMicSettings_Click" />
+                </Grid>
+            </Border>
+
+            <!-- Input device -->
+            <Border Classes="row last">
+                <Grid ColumnDefinitions="*,Auto,Auto">
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <TextBlock Classes="rowTitle" Text="Input device" />
+                    </StackPanel>
+
+                    <ComboBox Grid.Column="2" MaxWidth="280"
+                              ItemsSource="{Binding AudioDeviceList}"
+                              SelectedItem="{Binding SelectedAudioDevice}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:AudioInputDevice">
+                                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

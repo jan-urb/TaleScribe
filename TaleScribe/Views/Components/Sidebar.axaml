@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:TaleScribe.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="220" d:DesignHeight="450"
+             x:Class="TaleScribe.Views.Components.Sidebar"
+             x:DataType="vm:MainViewModel"
+             Width="220">
+    
+    <Border Background="{StaticResource Surface2Brush}"
+            BorderBrush="{StaticResource HairlineBrush}"
+            BorderThickness="0,0,1,0"
+            Padding="12">
+        <DockPanel LastChildFill="True">
+
+            <!-- Brand -->
+            <StackPanel DockPanel.Dock="Top"
+                        Orientation="Horizontal"
+                        Spacing="8"
+                        Margin="10,8,10,20">
+                <Border Classes="logoMark" VerticalAlignment="Center">
+                    <Ellipse />
+                </Border>
+                <TextBlock Classes="appName" Text="TaleScribe" VerticalAlignment="Center" />
+            </StackPanel>
+            
+            <ListBox Name="BottomNavList"
+                     SelectionChanged="OnNavSelectionChanged"
+                     DockPanel.Dock="Bottom"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     Padding="0"
+                     ItemContainerTheme="{StaticResource NavItemTheme}">
+                <ListBoxItem Tag="{Binding NavigateToSettingsCommand}">Settings</ListBoxItem>
+            </ListBox>
+
+            <!-- Navigation -->
+            <ListBox Name="NavList"
+                     SelectionChanged="OnNavSelectionChanged"
+                     DockPanel.Dock="Top"
+                     VerticalAlignment="Top"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     Padding="0"
+                     ItemContainerTheme="{StaticResource NavItemTheme}">
+                <ListBoxItem IsSelected="True" Tag="{Binding NavigateToRecordingsListCommand}">Recordings</ListBoxItem>
+                <ListBoxItem Tag="{Binding NavigateToMemoCommand}">Quick memo</ListBoxItem>
+            </ListBox>
+
+        </DockPanel>
+    </Border>
+
+</UserControl>

@@ -1,0 +1,172 @@
+<!-- The type scale. One class per role; views pick a role instead of setting sizes themselves.
+     Line heights are the spec's ratio × size, letter spacing its em value × size, both in px.
+     Weights use the spec's rounding for fonts without variable weights (Skia picks named
+     instances): 520/540 → Medium, 580/620 → SemiBold. Every role sets its weight, so a
+     surrounding Button's weight never leaks into row text.
+     :is(TextBlock) so SelectableTextBlock gets the roles too. Numbers use the mono font, whose
+     figures are already tabular. -->
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style Selector=":is(TextBlock).timerXl">
+        <Setter Property="FontFamily" Value="{StaticResource FontMono}" />
+        <Setter Property="FontSize" Value="64" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="LineHeight" Value="64" />
+        <Setter Property="LetterSpacing" Value="-2.24" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).titleLg">
+        <Setter Property="FontSize" Value="26" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="LineHeight" Value="31.2" />
+        <Setter Property="LetterSpacing" Value="-0.57" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).titlePage">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="LineHeight" Value="27.5" />
+        <Setter Property="LetterSpacing" Value="-0.4" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).titlePane">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="LineHeight" Value="25" />
+        <Setter Property="LetterSpacing" Value="-0.32" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).titleDialog">
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="LineHeight" Value="19.5" />
+        <Setter Property="LetterSpacing" Value="-0.18" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).reading">
+        <Setter Property="FontSize" Value="16.5" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="LineHeight" Value="28.4" />
+        <Setter Property="LetterSpacing" Value="-0.066" />
+        <Setter Property="Foreground" Value="{StaticResource Ink88Brush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).lead">
+        <Setter Property="FontSize" Value="14.5" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="LineHeight" Value="20.3" />
+        <Setter Property="LetterSpacing" Value="-0.116" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).listTitle">
+        <Setter Property="FontSize" Value="14.5" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="LineHeight" Value="19.6" />
+        <Setter Property="LetterSpacing" Value="-0.116" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).appName">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="LetterSpacing" Value="-0.14" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).rowTitle">
+        <Setter Property="FontSize" Value="13.5" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="LineHeight" Value="18.2" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+    <Style Selector=":is(TextBlock).rowTitle.selected">
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).body">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="LineHeight" Value="18.85" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+        <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).subtitle">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="LineHeight" Value="18.85" />
+        <Setter Property="Foreground" Value="{StaticResource Ink45Brush}" />
+        <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).control">
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).speakerLabel">
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="LineHeight" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).status">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{StaticResource Ink50Brush}" />
+        <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).description">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="LineHeight" Value="17.4" />
+        <Setter Property="Foreground" Value="{StaticResource Ink45Brush}" />
+        <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).monoDuration">
+        <Setter Property="FontFamily" Value="{StaticResource FontMono}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{StaticResource Ink50Brush}" />
+        <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).caption">
+        <Setter Property="FontSize" Value="11.5" />
+        <Setter Property="LineHeight" Value="17.25" />
+        <Setter Property="Foreground" Value="{StaticResource Ink40Brush}" />
+        <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+
+    <Style Selector=":is(TextBlock).monoData">
+        <Setter Property="FontFamily" Value="{StaticResource FontMono}" />
+        <Setter Property="FontSize" Value="11.5" />
+        <Setter Property="Foreground" Value="{StaticResource Ink40Brush}" />
+        <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+
+    <!-- Avalonia has no text-transform: write section labels in capitals -->
+    <Style Selector=":is(TextBlock).sectionLabel">
+        <Setter Property="FontFamily" Value="{StaticResource FontMono}" />
+        <Setter Property="FontSize" Value="10.5" />
+        <Setter Property="LetterSpacing" Value="0.84" />
+        <Setter Property="Foreground" Value="{StaticResource Ink35Brush}" />
+        <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+
+    <!-- Error messages: destructive red, sized like a text action -->
+    <Style Selector=":is(TextBlock).error">
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="LineHeight" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource RedBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+</Styles>

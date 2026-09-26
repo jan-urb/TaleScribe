@@ -1,0 +1,41 @@
+# Build output
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+publish/
+*.nupkg
+artifacts/
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+*.DotSettings.user
+
+# Visual Studio / VS Code
+.vs/
+*.user
+*.suo
+*.userprefs
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Test and coverage output
+TestResults/
+coverage*/
+*.coverage
+
+# Local app data (should never be in the repo; lives in the user data folder)
+*.db
+*.db-shm
+*.db-wal
+*.gguf
+*.wav
+
+# Prebuilt native libraries (~64 MB). Not tracked for now; the csproj copies them into the
+# build, so a fresh clone needs native/ copied in by hand before it will run.
+/native/

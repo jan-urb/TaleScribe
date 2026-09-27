@@ -8,7 +8,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <AvaloniaResource Include="Assets\**"/>
+        <AvaloniaResource Include="Assets\**" Exclude="Assets\*.icns;Assets\**\.DS_Store"/>
+    </ItemGroup>
+
+    <!-- macOS app icon. Not a bundle yet: the .icns ships next to the app for packaging into a .app later. -->
+    <ItemGroup Condition="$(RuntimeIdentifier.StartsWith('osx')) or ('$(RuntimeIdentifier)' == '' and $([MSBuild]::IsOSPlatform('OSX')))">
+        <None Include="Assets\TaleScribe.icns" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     </ItemGroup>
 
     <!-- Which native transcribe build to copy next to the app. Uses the runtime identifier when one
@@ -35,6 +40,8 @@
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+        <!-- No PDB in Release: it (and the DLL's pointer to it) would carry local build paths. -->
+        <DebugType>none</DebugType>
     </PropertyGroup>
 
     <!-- Downloads the native build into native/ on the first build (and again after a version bump).

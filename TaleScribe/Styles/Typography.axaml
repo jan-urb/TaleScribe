@@ -66,9 +66,9 @@
     </Style>
 
     <Style Selector=":is(TextBlock).appName">
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="18" />
         <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="LetterSpacing" Value="-0.14" />
+        <Setter Property="LetterSpacing" Value="-0.18" />
         <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
     </Style>
 

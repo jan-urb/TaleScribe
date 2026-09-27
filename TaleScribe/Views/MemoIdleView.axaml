@@ -9,9 +9,7 @@
 
     <StackPanel MaxWidth="400" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-        <Border Classes="logoMark large" HorizontalAlignment="Center">
-            <Ellipse />
-        </Border>
+        <Image Classes="logoMark large" RenderOptions.BitmapInterpolationMode="HighQuality" HorizontalAlignment="Center" />
 
         <TextBlock Classes="titleLg"
                    Text="Quick memo"

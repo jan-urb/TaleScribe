@@ -19,9 +19,7 @@
                         Orientation="Horizontal"
                         Spacing="8"
                         Margin="10,8,10,20">
-                <Border Classes="logoMark" VerticalAlignment="Center">
-                    <Ellipse />
-                </Border>
+                <Image Classes="logoMark" RenderOptions.BitmapInterpolationMode="HighQuality" VerticalAlignment="Center" />
                 <TextBlock Classes="appName" Text="TaleScribe" VerticalAlignment="Center" />
             </StackPanel>
             

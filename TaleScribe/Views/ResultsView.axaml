@@ -61,7 +61,7 @@
         </Border>
 
         <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-            <StackPanel Margin="40,32,40,40" MaxWidth="640" HorizontalAlignment="Left">
+            <StackPanel Margin="40,32,40,40">
 
                 <!-- Back to the recordings list -->
                 <Button Classes="text back"

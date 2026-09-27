@@ -36,6 +36,6 @@ coverage*/
 *.gguf
 *.wav
 
-# Prebuilt native libraries (~64 MB). Not tracked for now; the csproj copies them into the
-# build, so a fresh clone needs native/ copied in by hand before it will run.
+# Prebuilt transcribe.cpp native libraries. The first build downloads them here (see
+# TaleScribe.csproj) and copies them next to the app.
 /native/

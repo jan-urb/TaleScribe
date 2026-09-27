@@ -13,28 +13,69 @@
     <!-- Which native transcribe build to copy next to the app. Uses the runtime identifier when one
          is given (dotnet publish -r win-x64 / osx-arm64); otherwise the OS doing the build. -->
     <PropertyGroup>
-        <NativeDir Condition="$(RuntimeIdentifier.StartsWith('win')) or ('$(RuntimeIdentifier)' == '' and $([MSBuild]::IsOSPlatform('Windows')))">transcribe-native-windows-x86_64-cpu-vulkan</NativeDir>
-        <NativeDir Condition="$(RuntimeIdentifier.StartsWith('osx')) or ('$(RuntimeIdentifier)' == '' and $([MSBuild]::IsOSPlatform('OSX')))">transcribe-native-macos-arm64-metal</NativeDir>
+        <NativePlatform Condition="$(RuntimeIdentifier.StartsWith('win')) or ('$(RuntimeIdentifier)' == '' and $([MSBuild]::IsOSPlatform('Windows')))">windows-x86_64-cpu-vulkan</NativePlatform>
+        <NativeSha256 Condition="'$(NativePlatform)' == 'windows-x86_64-cpu-vulkan'">dac5b6038aaf8777cab541b0f854a79e34f13e5892266229f64c61d34a879e49</NativeSha256>
+        <NativePlatform Condition="$(RuntimeIdentifier.StartsWith('osx')) or ('$(RuntimeIdentifier)' == '' and $([MSBuild]::IsOSPlatform('OSX')))">macos-arm64-metal</NativePlatform>
+        <NativeSha256 Condition="'$(NativePlatform)' == 'macos-arm64-metal'">1cc5e89d442f55c165a3f90e49090cec75cec349071d834c0aa656161afa9543</NativeSha256>
+        <NativeDir Condition="'$(NativePlatform)' != ''">transcribe-native-$(NativePlatform)</NativeDir>
+    </PropertyGroup>
+
+    <!-- transcribe.cpp release the app is built against. When bumping the version, update both
+         NativeSha256 values above (the digests are listed on the GitHub release page). -->
+    <PropertyGroup>
+        <TranscribeVersion>0.2.3</TranscribeVersion>
+        <NativeRoot>$(MSBuildThisFileDirectory)../native</NativeRoot>
+        <NativeArchive>transcribe-native-$(TranscribeVersion)-$(NativePlatform).tar.gz</NativeArchive>
+        <NativeUrl>https://github.com/handy-computer/transcribe.cpp/releases/download/v$(TranscribeVersion)/$(NativeArchive)</NativeUrl>
+        <NativeStamp>$(NativeRoot)/$(NativeDir)/.version-$(TranscribeVersion)</NativeStamp>
+        <NativeTar>tar</NativeTar>
+        <NativeTar Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(SystemRoot)\System32\tar.exe</NativeTar>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     </PropertyGroup>
 
-    <!-- Flattened into the output folder: ggml loads its ggml-cpu-* and ggml-vulkan backends from
-         the executable's folder, so they must sit next to transcribe.dll / libtranscribe.dylib. -->
-    <ItemGroup Condition="'$(NativeDir)' != ''">
-        <Content Include="$(MSBuildThisFileDirectory)../native/$(NativeDir)/*.dll;$(MSBuildThisFileDirectory)../native/$(NativeDir)/*.dylib">
-            <Link>%(Filename)%(Extension)</Link>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        </Content>
-    </ItemGroup>
+    <!-- Downloads the native build into native/ on the first build (and again after a version bump).
+         The archive already unpacks to native/$(NativeDir). Skipped in design-time builds so the IDE
+         doesn't download when it loads the project. -->
+    <Target Name="DownloadNativeTranscribe"
+            Condition="'$(NativeDir)' != '' and !Exists('$(NativeStamp)') and '$(DesignTimeBuild)' != 'true'">
+        <Message Importance="high" Text="Downloading transcribe.cpp $(TranscribeVersion) ($(NativePlatform))..."/>
+        <DownloadFile SourceUrl="$(NativeUrl)" DestinationFolder="$(IntermediateOutputPath)" Retries="2" ContinueOnError="true"/>
+        <Error Condition="'$(MSBuildLastTaskResult)' == 'false'" Text="Could not download $(NativeUrl). Check your internet connection, or install the native libraries by hand (see README)."/>
+
+        <GetFileHash Files="$(IntermediateOutputPath)$(NativeArchive)" Algorithm="SHA256">
+            <Output TaskParameter="Hash" PropertyName="_NativeArchiveHash"/>
+        </GetFileHash>
+        <Delete Condition="'$(_NativeArchiveHash)' != '$(NativeSha256)'" Files="$(IntermediateOutputPath)$(NativeArchive)"/>
+        <Error Condition="'$(_NativeArchiveHash)' != '$(NativeSha256)'" Text="$(NativeArchive) has SHA-256 $(_NativeArchiveHash), expected $(NativeSha256)."/>
+
+        <RemoveDir Directories="$(NativeRoot)/$(NativeDir)"/>
+        <MakeDir Directories="$(NativeRoot)"/>
+        <Exec Command="&quot;$(NativeTar)&quot; -xzf &quot;$(IntermediateOutputPath)$(NativeArchive)&quot; -C &quot;$(NativeRoot)&quot;"/>
+        <Touch Files="$(NativeStamp)" AlwaysCreate="true"/>
+        <Delete Files="$(IntermediateOutputPath)$(NativeArchive)"/>
+    </Target>
 
     <!-- Fail the build with a clear message instead of at runtime with DllNotFoundException. -->
-    <Target Name="CheckNativeTranscribe" BeforeTargets="Build">
+    <Target Name="CheckNativeTranscribe" DependsOnTargets="DownloadNativeTranscribe">
         <Error Condition="'$(NativeDir)' == ''" Text="No native transcribe build for this platform. Only Windows x64 and macOS arm64 are supported."/>
-        <Error Condition="!Exists('$(MSBuildThisFileDirectory)../native/$(NativeDir)')" Text="Missing native/$(NativeDir). native/ is not in git; copy it into the repo root before building."/>
+        <Error Condition="!Exists('$(NativeRoot)/$(NativeDir)')" Text="Missing native/$(NativeDir). Build once with an internet connection, or install it by hand (see README)."/>
+    </Target>
+
+    <!-- Flattened into the output folder: ggml loads its ggml-cpu-* and ggml-vulkan backends from
+         the executable's folder, so they must sit next to transcribe.dll / libtranscribe.dylib.
+         Added in a target (not a static ItemGroup) so the glob sees files downloaded by this build. -->
+    <Target Name="IncludeNativeTranscribe" BeforeTargets="AssignTargetPaths" DependsOnTargets="CheckNativeTranscribe">
+        <ItemGroup>
+            <_NativeLib Include="$(NativeRoot)/$(NativeDir)/*.dll;$(NativeRoot)/$(NativeDir)/*.dylib"/>
+            <Content Include="@(_NativeLib)">
+                <Link>%(_NativeLib.Filename)%(_NativeLib.Extension)</Link>
+                <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+                <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            </Content>
+        </ItemGroup>
     </Target>
 
     <ItemGroup>

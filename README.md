@@ -31,10 +31,9 @@ Linux and Intel Macs are not supported.
 ## Requirements
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-- The **transcribe.cpp native libraries** for your OS (see below). They are not included in this
-  repository.
-- An internet connection the first time, to download the models (from about 45 MB up to 6 GB each,
-  depending on the model you choose).
+- An internet connection the first time: the first build downloads the transcribe.cpp native
+  libraries (about 1.5 MB on macOS, 20 MB on Windows), and the app downloads the models (from about
+  45 MB up to 6 GB each, depending on the model you choose).
 
 ## Getting started
 
@@ -45,28 +44,41 @@ git clone https://github.com/jan-urb/TaleScribe.git
 cd TaleScribe
 ```
 
-### 2. Download the transcribe.cpp native build for your OS
+### 2. Build and run
 
-Go to the [transcribe.cpp releases](https://github.com/handy-computer/transcribe.cpp/releases) and
-download the archive for your platform:
+```bash
+dotnet run --project TaleScribe
+```
 
-| OS | Download | Folder name it must have |
+Or open `TaleScribe.sln` in JetBrains Rider or Visual Studio and run the **TaleScribe** project.
+
+The first build downloads **transcribe.cpp 0.2.3** for your OS from the
+[transcribe.cpp releases](https://github.com/handy-computer/transcribe.cpp/releases), checks its
+SHA-256 hash and extracts it into `native/` in the repository root. Later builds reuse it. The build
+then copies the native libraries next to the app. `native/` is in `.gitignore`, so the libraries are
+never committed.
+
+To move to another transcribe.cpp version, change `TranscribeVersion` and the two `NativeSha256`
+values in `TaleScribe/TaleScribe.csproj`. The next build downloads the new version.
+
+### Installing the native libraries by hand
+
+Only needed if the build can't download them (for example, offline). Download the archive for your
+platform from the [transcribe.cpp 0.2.3 release](https://github.com/handy-computer/transcribe.cpp/releases/tag/v0.2.3):
+
+| OS | Download | Folder it extracts to |
 |---|---|---|
-| Windows x64 | `transcribe-native-<version>-windows-x86_64-cpu-vulkan.tar.gz` | `transcribe-native-windows-x86_64-cpu-vulkan` |
-| macOS Apple Silicon | `transcribe-native-<version>-macos-arm64-metal.tar.gz` | `transcribe-native-macos-arm64-metal` |
+| Windows x64 | `transcribe-native-0.2.3-windows-x86_64-cpu-vulkan.tar.gz` | `transcribe-native-windows-x86_64-cpu-vulkan` |
+| macOS Apple Silicon | `transcribe-native-0.2.3-macos-arm64-metal.tar.gz` | `transcribe-native-macos-arm64-metal` |
 
-> **Version:** TaleScribe is built and tested against **transcribe.cpp 0.2.3**. Newer releases may
-> work, but the native interface can change between versions. If a newer one fails to load or crashes,
-> use 0.2.3.
-
-Create a `native` folder in the repository root, extract the archive into it, and rename the extracted
-folder so the **version number is removed** (it must match the name in the table exactly). The
-`.dll` / `.dylib` files must sit directly inside it:
+Create a `native` folder in the repository root and extract the archive into it. Then create an empty
+file named `.version-0.2.3` in the extracted folder, otherwise the build tries to download it again:
 
 ```
 TaleScribe/                                  ← repository root
 ├── native/
 │   └── transcribe-native-macos-arm64-metal/
+│       ├── .version-0.2.3
 │       ├── libtranscribe.dylib
 │       ├── libggml.dylib
 │       ├── libggml-base.dylib
@@ -82,24 +94,12 @@ TaleScribe/                                  ← repository root
 On Windows the folder is `native/transcribe-native-windows-x86_64-cpu-vulkan/`, containing
 `transcribe.dll` and the `ggml*.dll` files.
 
-`native/` is in `.gitignore`, so the libraries are never committed.
-
 **macOS only:** files downloaded in a browser are quarantined, and macOS may refuse to load the
 libraries. Clear the flag once:
 
 ```bash
 xattr -dr com.apple.quarantine native
 ```
-
-### 3. Build and run
-
-```bash
-dotnet run --project TaleScribe
-```
-
-Or open `TaleScribe.sln` in JetBrains Rider or Visual Studio and run the **TaleScribe** project.
-
-The build copies the native libraries for your OS next to the app automatically.
 
 ## First run
 

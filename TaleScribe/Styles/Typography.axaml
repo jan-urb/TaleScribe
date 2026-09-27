@@ -8,15 +8,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style Selector=":is(TextBlock).timerXl">
-        <Setter Property="FontFamily" Value="{StaticResource FontMono}" />
-        <Setter Property="FontSize" Value="64" />
-        <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="LineHeight" Value="64" />
-        <Setter Property="LetterSpacing" Value="-2.24" />
-        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
-    </Style>
-
     <Style Selector=":is(TextBlock).titleLg">
         <Setter Property="FontSize" Value="26" />
         <Setter Property="FontWeight" Value="SemiBold" />

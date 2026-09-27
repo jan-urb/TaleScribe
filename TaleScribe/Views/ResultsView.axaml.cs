@@ -12,9 +12,7 @@ public partial class ResultsView : UserControl
     {
         InitializeComponent();
     }
-
-    // async void is required for an event handler, so nothing may escape it: an unhandled
-    // exception here would take the whole app down.
+    
     private async void SaveTranscriptButton_Click(object? sender, RoutedEventArgs e)
     {
         if (DataContext is not RecordingFlowViewModel recordingFlowViewModel) return;

@@ -9,29 +9,20 @@
 
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 
-        <!-- Status: a pulsing red dot while live, a still grey one while paused -->
+        <!-- Status: a large dot, red and pulsing while recording, grey and still while paused -->
         <Panel HorizontalAlignment="Center">
-            <StackPanel Orientation="Horizontal" Spacing="8" IsVisible="{Binding !IsPaused}">
-                <Ellipse Classes="liveDot" />
-                <TextBlock Classes="status" Text="Recording" VerticalAlignment="Center" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Spacing="8" IsVisible="{Binding IsPaused}">
-                <Ellipse Classes="pausedDot" />
-                <TextBlock Classes="status" Text="Paused" VerticalAlignment="Center" />
-            </StackPanel>
+            <Ellipse Classes="liveDot large" IsVisible="{Binding !IsPaused}" />
+            <Ellipse Classes="pausedDot large" IsVisible="{Binding IsPaused}" />
         </Panel>
-
-        <!-- Elapsed time, driven by the code-behind -->
-        <TextBlock x:Name="ElapsedText"
-                   Classes="timerXl"
-                   Text="0:00"
-                   Margin="0,24,0,0"
-                   HorizontalAlignment="Center" />
+        <Panel HorizontalAlignment="Center" Margin="0,16,0,0">
+            <TextBlock Classes="status" Text="Recording" IsVisible="{Binding !IsPaused}" />
+            <TextBlock Classes="status" Text="Paused" IsVisible="{Binding IsPaused}" />
+        </Panel>
 
         <!-- Transport controls: Stop & transcribe is the one primary action -->
         <StackPanel Orientation="Horizontal"
                     Spacing="12"
-                    Margin="0,40,0,0"
+                    Margin="0,32,0,0"
                     HorizontalAlignment="Center">
             <Button Classes="l destructive" Content="Discard" Command="{Binding CancelCommand}" />
             <Button Classes="l"  Content="{Binding PauseText}" Command="{Binding TogglePauseCommand}" />

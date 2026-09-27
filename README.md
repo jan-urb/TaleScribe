@@ -128,7 +128,7 @@ folder, for example on a larger drive.
 - **Record** starts recording from the microphone. **Stop & transcribe** ends the recording and
   transcribes it. **Discard** throws it away.
 - **Pause** stops recording without ending it, and **Resume** continues. The paused part is left out
-  of the audio, and the timer stops with it.
+  of the audio. The dot on the recording screen is red and pulsing while recording, grey while paused.
 - **Import audio…** transcribes an existing `.mp3`, `.m4a` or `.wav` file.
 - While transcribing you can **Cancel**. The audio file stays in the recordings folder, but it isn't
   added to the list.

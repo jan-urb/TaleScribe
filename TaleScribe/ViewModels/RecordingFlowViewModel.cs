@@ -52,18 +52,16 @@ public partial class RecordingFlowViewModel : ViewModelBase, IDisposable
 
     [ObservableProperty] private bool _isLoaded;
 
-    [ObservableProperty]                                                                          
-    [NotifyPropertyChangedFor(nameof(PauseText))]                                                 
-    private bool _isPaused; 
-    
-    public string PauseText => IsPaused ? "Resume" : "Pause";   
+    [ObservableProperty] [NotifyPropertyChangedFor(nameof(PauseText))]
+    private bool _isPaused;
 
     [ObservableProperty] [NotifyPropertyChangedFor(nameof(PlayPauseText))]
     private bool _isPlaying;
 
     [ObservableProperty] private double _positionSeconds;
 
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(RecordedOn))]
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(RecordedOn))]
     [NotifyPropertyChangedFor(nameof(SaveTranscriptFileName))]
     [NotifyCanExecuteChangedFor(nameof(SaveTranscriptCommand))]
     private SpeechRecognitionResult? _recording;
@@ -114,6 +112,8 @@ public partial class RecordingFlowViewModel : ViewModelBase, IDisposable
         _positionTimer.Tick += (_, _) => RefreshPosition();
     }
 
+    public string PauseText => IsPaused ? "Resume" : "Pause";
+
     public string? RecordedOn => Recording?.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm");
 
     public string RecordingsCountText =>
@@ -130,6 +130,17 @@ public partial class RecordingFlowViewModel : ViewModelBase, IDisposable
     public string TimeText =>
         $"{TimeSpan.FromSeconds(PositionSeconds):m\\:ss} / " +
         $"{TimeSpan.FromSeconds(DurationSeconds):m\\:ss}";
+    
+    public string SaveTranscriptFileName
+    {
+        get
+        {
+            var title = Recording?.Title;
+            if (string.IsNullOrWhiteSpace(title)) return "transcript.txt";
+
+            return $"{title}.txt";
+        }
+    }
 
     public void Dispose()
     {
@@ -396,25 +407,13 @@ public partial class RecordingFlowViewModel : ViewModelBase, IDisposable
 
         return true;
     }
-    
-    /// <summary>The name the save dialog suggests: the recording's title as a .txt file.</summary>
-    public string SaveTranscriptFileName
-    {
-        get
-        {
-            var title = Recording?.Title;
-            if (string.IsNullOrWhiteSpace(title)) return "transcript.txt";
 
-            return $"{title}.txt";
-        }
+    private bool CanSaveTranscript()
+    {
+        return Recording is not null;
     }
 
-    private bool CanSaveTranscript() => Recording is not null;
 
-    /// <summary>
-    ///     Writes the transcript on the results screen to <paramref name="file" /> as plain text: title,
-    ///     date, then each turn with its speaker and start time. The view picks the file.
-    /// </summary>
     [RelayCommand(CanExecute = nameof(CanSaveTranscript))]
     private async Task SaveTranscriptAsync(IStorageFile file)
     {
@@ -426,8 +425,7 @@ public partial class RecordingFlowViewModel : ViewModelBase, IDisposable
 
             // Overwriting a longer file would otherwise leave its old ending behind.
             if (stream.CanSeek) stream.SetLength(0);
-
-            // UTF-8, so letters such as č, š and ž are kept.
+            
             await using var writer = new StreamWriter(stream, new UTF8Encoding(false));
             await writer.WriteAsync(BuildTranscriptText(Recording));
         }
@@ -486,7 +484,7 @@ public partial class RecordingFlowViewModel : ViewModelBase, IDisposable
     {
         return ex switch
         {
-            InvalidOperationException => ex.Message, // e.g. "Recording contained no audio."
+            InvalidOperationException => ex.Message,
             IOException => "The recording file could not be read.",
             ArgumentException or NotSupportedException =>
                 $"The recording is in a format that cannot be transcribed. {ex.Message}",

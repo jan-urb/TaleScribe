@@ -17,6 +17,10 @@
         <NativeDir Condition="$(RuntimeIdentifier.StartsWith('osx')) or ('$(RuntimeIdentifier)' == '' and $([MSBuild]::IsOSPlatform('OSX')))">transcribe-native-macos-arm64-metal</NativeDir>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+
     <!-- Flattened into the output folder: ggml loads its ggml-cpu-* and ggml-vulkan backends from
          the executable's folder, so they must sit next to transcribe.dll / libtranscribe.dylib. -->
     <ItemGroup Condition="'$(NativeDir)' != ''">
@@ -29,8 +33,8 @@
 
     <!-- Fail the build with a clear message instead of at runtime with DllNotFoundException. -->
     <Target Name="CheckNativeTranscribe" BeforeTargets="Build">
-        <Error Condition="'$(NativeDir)' == ''" Text="No native transcribe build for this platform. Only Windows x64 and macOS arm64 are supported." />
-        <Error Condition="!Exists('$(MSBuildThisFileDirectory)../native/$(NativeDir)')" Text="Missing native/$(NativeDir). native/ is not in git; copy it into the repo root before building." />
+        <Error Condition="'$(NativeDir)' == ''" Text="No native transcribe build for this platform. Only Windows x64 and macOS arm64 are supported."/>
+        <Error Condition="!Exists('$(MSBuildThisFileDirectory)../native/$(NativeDir)')" Text="Missing native/$(NativeDir). native/ is not in git; copy it into the repo root before building."/>
     </Target>
 
     <ItemGroup>
@@ -43,19 +47,19 @@
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.11">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.11" />
-        <PackageReference Include="NAudio.MacOS" Version="3.1.1-preview.1" />
-        <PackageReference Include="NAudio.SoundFile" Version="3.1.0" />
-        <PackageReference Include="NAudio.Wasapi" Version="3.1.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.11"/>
+        <PackageReference Include="NAudio.MacOS" Version="3.1.1-preview.1"/>
+        <PackageReference Include="NAudio.SoundFile" Version="3.1.0"/>
+        <PackageReference Include="NAudio.Wasapi" Version="3.1.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Views\MainWindow.axaml.cs">
-        <DependentUpon>MainWindow.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
+        <Compile Update="Views\MainWindow.axaml.cs">
+            <DependentUpon>MainWindow.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 </Project>

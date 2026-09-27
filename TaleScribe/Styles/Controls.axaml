@@ -44,6 +44,11 @@
         <Setter Property="Fill" Value="{StaticResource Ink30Brush}" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
+    <!-- The recording screen's main indicator -->
+    <Style Selector="Ellipse.liveDot.large, Ellipse.pausedDot.large">
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+    </Style>
 
     <!-- Speaker dot beside a speaker label -->
     <Style Selector="Ellipse.speakerDot">

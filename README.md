@@ -8,7 +8,8 @@ Transcription runs locally with [transcribe.cpp](https://github.com/handy-comput
 ## Features
 
 - **Recordings**: record from the microphone or import an `.mp3`, `.m4a` or `.wav` file. TaleScribe
-  transcribes it, splits the text into turns per speaker and saves it.
+  transcribes it, splits the text into turns per speaker and saves it. Delete recordings you no
+  longer need.
 - **Transcript view** with a built-in player: play, pause, seek and change the volume. Save any
   transcript as a text file.
 - **Quick memo**: hold a button, speak, let go, and the text appears. Each press is added to the text.
@@ -130,9 +131,12 @@ folder, for example on a larger drive.
 - **Pause** stops recording without ending it, and **Resume** continues. The paused part is left out
   of the audio. The dot on the recording screen is red and pulsing while recording, grey while paused.
 - **Import audio…** transcribes an existing `.mp3`, `.m4a` or `.wav` file.
-- While transcribing you can **Cancel**. The audio file stays in the recordings folder, but it isn't
-  added to the list.
+- While transcribing you can **Cancel**. Nothing is added to the list; a microphone recording's audio
+  file stays in the recordings folder.
 - Click a recording in the list to open its transcript and play the audio.
+- **Delete** on a row removes the recording and its transcript right away (no confirmation). Audio
+  recorded in TaleScribe is deleted from the recordings folder too; an imported file is left where it
+  is.
 - **Save as text…** on the transcript page saves it as a `.txt` file named after the recording: the
   title and date, then each turn with its speaker and start time.
 

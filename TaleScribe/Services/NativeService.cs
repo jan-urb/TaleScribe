@@ -16,12 +16,19 @@ public class NativeService
 {
     private const string Lib = "transcribe";
 
+    // Dynamic-backend builds (Windows) only register the ggml-cpu/vulkan modules when asked to,
+    // once, before the first model load. A no-op on macOS, where the backends are compiled in.
+    private static readonly Lazy<int> BackendsStatus = new(transcribe_init_backends_default);
+
     private readonly Setting _setting;
 
     public NativeService()
     {
         _setting = SettingsService.Load();
     }
+
+    [DllImport(Lib, CallingConvention = CallingConvention.Cdecl)]
+    private static extern int transcribe_init_backends_default();
 
     [DllImport(Lib, CallingConvention = CallingConvention.Cdecl)]
     private static extern void transcribe_run_params_init(ref TranscribeRunParams p);
@@ -80,6 +87,12 @@ public class NativeService
         return Marshal.PtrToStringUTF8(transcribe_status_string(status)) ?? $"status {status}";
     }
 
+    private static void EnsureBackends()
+    {
+        var status = BackendsStatus.Value;
+        if (status != 0) throw new Exception($"backend init failed: {StatusText(status)}");
+    }
+
 
     public static float[] LoadWav16k(string wavPath)
     {
@@ -124,6 +137,8 @@ public class NativeService
             var lang = Marshal.StringToCoTaskMemUTF8(_setting.LanguageCode);
             try
             {
+                EnsureBackends();
+
                 var stAsr = transcribe_open(modelPathAsr, IntPtr.Zero, IntPtr.Zero, out var asrSession);
                 if (stAsr != 0) throw new Exception($"open failed: {StatusText(stAsr)}");
 
@@ -217,6 +232,8 @@ public class NativeService
             var lang = Marshal.StringToCoTaskMemUTF8(_setting.LanguageCode);
             try
             {
+                EnsureBackends();
+
                 var stAsr = transcribe_open(modelPathAsr, IntPtr.Zero, IntPtr.Zero, out var
                     asrSession);
                 if (stAsr != 0) throw new Exception($"open failed: {StatusText(stAsr)}");

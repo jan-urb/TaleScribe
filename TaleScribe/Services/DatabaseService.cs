@@ -49,4 +49,19 @@ public class DatabaseService
             .Include(record => record.Combined.OrderBy(turn => turn.T0))
             .FirstOrDefaultAsync(record => record.Id == id);
     }
+    
+    // Returns the deleted recording's audio path, or null when there was nothing to delete.
+    public async Task<string?> DeleteRecordAsync(int id)
+    {
+        await using var db = new AppDbContext();
+        var record = await db.Results
+            .Include(record => record.Combined)
+            .FirstOrDefaultAsync(record => record.Id == id);
+        if (record is null) return null;
+
+        db.Results.Remove(record);
+        await db.SaveChangesAsync();
+        return record.Path;
+    }
+    
 }

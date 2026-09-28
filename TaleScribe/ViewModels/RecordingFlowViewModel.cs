@@ -77,6 +77,7 @@ public partial class RecordingFlowViewModel : ViewModelBase, IDisposable
     [NotifyPropertyChangedFor(nameof(IsProcessing))]
     [NotifyPropertyChangedFor(nameof(IsFinished))]
     [NotifyCanExecuteChangedFor(nameof(OpenRecordingCommand))]
+    [NotifyCanExecuteChangedFor(nameof(DeleteRecordCommand))]
     [NotifyCanExecuteChangedFor(nameof(StartCommand))]
     [NotifyCanExecuteChangedFor(nameof(StopCommand))]
     [NotifyCanExecuteChangedFor(nameof(CancelCommand))]
@@ -130,7 +131,7 @@ public partial class RecordingFlowViewModel : ViewModelBase, IDisposable
     public string TimeText =>
         $"{TimeSpan.FromSeconds(PositionSeconds):m\\:ss} / " +
         $"{TimeSpan.FromSeconds(DurationSeconds):m\\:ss}";
-    
+
     public string SaveTranscriptFileName
     {
         get
@@ -180,6 +181,25 @@ public partial class RecordingFlowViewModel : ViewModelBase, IDisposable
 
         if (await LoadResultAsync())
             State = RecorderState.Finished;
+    }
+    
+    
+    [RelayCommand(CanExecute = nameof(IsIdle))]
+    private async Task DeleteRecordAsync(int id)
+    {
+        ErrorMessage = null;
+
+        try
+        {
+            var path = await _databaseService.DeleteRecordAsync(id);
+            if (IsAppRecording(path)) TryDelete(path);
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"The recording could not be deleted. {ex.Message}";
+        }
+
+        await LoadRecordingsAsync();
     }
 
 
@@ -425,7 +445,7 @@ public partial class RecordingFlowViewModel : ViewModelBase, IDisposable
 
             // Overwriting a longer file would otherwise leave its old ending behind.
             if (stream.CanSeek) stream.SetLength(0);
-            
+
             await using var writer = new StreamWriter(stream, new UTF8Encoding(false));
             await writer.WriteAsync(BuildTranscriptText(Recording));
         }
@@ -434,7 +454,7 @@ public partial class RecordingFlowViewModel : ViewModelBase, IDisposable
             ErrorMessage = $"The transcript could not be saved. {ex.Message}";
         }
     }
-
+    
     private string BuildTranscriptText(SpeechRecognitionResult recording)
     {
         var text = new StringBuilder();
@@ -503,6 +523,17 @@ public partial class RecordingFlowViewModel : ViewModelBase, IDisposable
         catch (Exception)
         {
         }
+    }
+
+    // Only audio the app recorded itself lives here; an imported recording points at the user's own file.
+    private static bool IsAppRecording(string? path)
+    {
+        if (path is null) return false;
+
+        return string.Equals(
+            Path.GetDirectoryName(Path.GetFullPath(path)),
+            Path.GetFullPath(AppPathsService.RecordingsDir),
+            StringComparison.OrdinalIgnoreCase);
     }
 
     [RelayCommand]

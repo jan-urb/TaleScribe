@@ -51,14 +51,21 @@
                                     Command="{Binding $parent[ItemsControl].((vm:RecordingFlowViewModel)DataContext).OpenRecordingCommand}"
                                     CommandParameter="{Binding Id}">
                                 <Border Classes="listRow">
-                                    <Grid ColumnDefinitions="*,Auto">
+                                    <Grid ColumnDefinitions="*,Auto,Auto">
                                         <StackPanel Grid.Column="0" Spacing="3">
                                             <TextBlock Classes="listTitle"
                                                        Text="{Binding Title}"
                                                        TextTrimming="CharacterEllipsis" />
                                             <TextBlock Classes="description" Text="{Binding RecordedOn}" />
                                         </StackPanel>
-                                        <TextBlock Grid.Column="1"
+                                        <Button Grid.Column="1"
+                                                Classes="text destructive"
+                                                Content="Delete"
+                                                Margin="20,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Command="{Binding $parent[ItemsControl].((vm:RecordingFlowViewModel)DataContext).DeleteRecordCommand}"
+                                                CommandParameter="{Binding Id}" />
+                                        <TextBlock Grid.Column="2"
                                                    Classes="body"
                                                    Text="›"
                                                    Foreground="{StaticResource Ink30Brush}"
